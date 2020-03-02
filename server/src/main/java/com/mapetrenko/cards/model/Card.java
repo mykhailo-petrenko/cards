@@ -1,31 +1,41 @@
 package com.mapetrenko.cards.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "card")
 public class Card {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_id_generator")
+    @SequenceGenerator(name = "card_id_generator", sequenceName = "card_id_generator", initialValue = 100)
+    private long id;
+
+    @Column(name = "question")
     private String question;
+
+    @Column(name = "answer")
     private String answer;
+
+    @Column(name = "acknowledged")
     private Date acknowledged;
+
+    @Column(name = "created")
     private Date created;
 
     public Card() {
-        acknowledged = null;
-        created = new Date();
     }
 
     public Card(String question, String answer) {
         this.question = question;
         this.answer = answer;
-        acknowledged = null;
-        created = new Date();
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -51,5 +61,13 @@ public class Card {
 
     public void setAcknowledged(Date acknowledged) {
         this.acknowledged = acknowledged;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }
