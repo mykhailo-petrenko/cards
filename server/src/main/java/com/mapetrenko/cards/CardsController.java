@@ -1,10 +1,13 @@
 package com.mapetrenko.cards;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.mapetrenko.cards.dao.CardCrudRepository;
+import com.mapetrenko.cards.dao.CardSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import com.mapetrenko.cards.model.Card;
@@ -12,19 +15,20 @@ import com.mapetrenko.cards.model.Card;
 @RestController
 @RequestMapping("/api/v1/cards")
 public class CardsController {
-    @Autowired
-    private CardCrudRepository repository;
+    private CardCrudRepository crud;
+
+    private CardSearchRepository search;
 
     @GetMapping()
-    public List<Card> getCards() {
-        List<Card> cards = repository.findAll();
+    public Page<Card> getCards(Pageable pageable) {
+        Page<Card> cards = search.findAll(pageable);
 
         return cards;
     }
 
     @GetMapping("/{cardId}")
     public Card getCard(@PathVariable("cardId") Long cardId) {
-        Optional<Card> card = repository.findById(cardId);
+        Optional<Card> card = crud.findById(cardId);
 
         return card.orElse(null);
     }
@@ -32,14 +36,14 @@ public class CardsController {
     @PostMapping()
     public Card createCard(@RequestBody Card card) {
 
-        Card newCard = repository.save(card);
+        Card newCard = crud.save(card);
 
         return newCard;
     }
 
     @PostMapping("/{cardId}")
     public Card updateCard(@PathVariable("cardId") Long cardId, @RequestBody Card card) {
-        Optional<Card> existingCard = repository.findById(cardId);
+        Optional<Card> existingCard = crud.findById(cardId);
 
         if (!existingCard.isPresent()) {
             return null;
@@ -47,25 +51,31 @@ public class CardsController {
 
         card.setId(existingCard.get().getId());
 
-        Card savedCard = repository.save(card);
+        Card savedCard = crud.save(card);
 
         return savedCard;
     }
 
     @DeleteMapping("/{cardId}")
     public Card deleteCard(@PathVariable("cardId") Long cardId) {
-        Optional<Card> existingCard = repository.findById(cardId);
+        Optional<Card> existingCard = crud.findById(cardId);
 
         if (!existingCard.isPresent()) {
             return null;
         }
 
-        repository.deleteById(cardId);
+        crud.deleteById(cardId);
 
         return existingCard.get();
     }
 
-    public void setRepository(CardCrudRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public void setCrud(CardCrudRepository crud) {
+        this.crud = crud;
+    }
+
+    @Autowired
+    public void setSearch(CardSearchRepository search) {
+        this.search = search;
     }
 }
