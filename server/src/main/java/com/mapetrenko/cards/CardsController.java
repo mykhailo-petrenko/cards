@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.mapetrenko.cards.dao.CardCrudRepository;
 import com.mapetrenko.cards.dao.CardSearchRepository;
+import com.mapetrenko.cards.errors.CardNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +31,10 @@ public class CardsController {
     public Card getCard(@PathVariable("cardId") Long cardId) {
         Optional<Card> card = crud.findById(cardId);
 
+        if (!card.isPresent()) {
+            throw new CardNotFoundException("There is no Card  with such id.");
+        }
+
         return card.orElse(null);
     }
 
@@ -46,7 +51,7 @@ public class CardsController {
         Optional<Card> existingCard = crud.findById(cardId);
 
         if (!existingCard.isPresent()) {
-            return null;
+            throw new CardNotFoundException("There is no Card  with such id.");
         }
 
         card.setId(existingCard.get().getId());
@@ -61,7 +66,7 @@ public class CardsController {
         Optional<Card> existingCard = crud.findById(cardId);
 
         if (!existingCard.isPresent()) {
-            return null;
+            throw new CardNotFoundException("There is no Card  with such id.");
         }
 
         crud.deleteById(cardId);
