@@ -17,7 +17,7 @@ public class UserDAO {
     private EntityManager entityManager;
 
     public List<User> findByEmail(String email) {
-        Query query = entityManager.createQuery("FROM User u where u.email = :email")
+        Query query = entityManager.createQuery("FROM User u where u.email = :email");
 
         query.setParameter("email", email);
 

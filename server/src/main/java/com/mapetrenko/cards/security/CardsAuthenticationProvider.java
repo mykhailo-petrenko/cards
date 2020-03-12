@@ -9,15 +9,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
 public class CardsAuthenticationProvider implements AuthenticationProvider {
-    UserService userService;
+    private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -36,22 +37,28 @@ public class CardsAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("User not found.");
         }
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("User or password incorrect.");
         }
 
-        Collection<? extends GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 
         return new UsernamePasswordAuthenticationToken(user, password, authorities);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+//        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return true;
     }
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(CardsPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }
