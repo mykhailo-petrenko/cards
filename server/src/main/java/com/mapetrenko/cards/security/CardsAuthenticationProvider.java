@@ -3,6 +3,7 @@ package com.mapetrenko.cards.security;
 import com.mapetrenko.cards.model.User;
 import com.mapetrenko.cards.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
