@@ -23,6 +23,9 @@ public class Card {
     @Column(name = "created")
     private Date created;
 
+    @Column(name = "user_id")
+    private long userId;
+
     public Card() {
     }
 
@@ -69,5 +72,13 @@ public class Card {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long user_id) {
+        this.userId = user_id;
     }
 }

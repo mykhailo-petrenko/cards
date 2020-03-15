@@ -19,7 +19,7 @@ public class JwtTokenUtil implements Serializable {
     @Value("jwt.secret")
     private String secret;
 
-    private int TOKEN_LIFE_TIME = 1 * (60 * 60);
+    private int TOKEN_LIFE_TIME = 1 * (60 * 60) * 1000;
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
@@ -46,11 +46,14 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private String buildJwtToken(Map<String, Object> claims, String subject) {
+        Date issued = new Date();
+        Date expiration = new Date(issued.getTime() + TOKEN_LIFE_TIME);
+
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + TOKEN_LIFE_TIME * 1000))
+            .setIssuedAt(issued)
+            .setExpiration(expiration)
             .signWith(SignatureAlgorithm.HS512, secret)
             .compact();
     }
