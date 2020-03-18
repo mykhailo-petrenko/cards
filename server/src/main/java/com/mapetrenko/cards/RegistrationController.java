@@ -6,7 +6,6 @@ import com.mapetrenko.cards.model.User;
 import com.mapetrenko.cards.security.CardsPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,14 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/registration")
 public class RegistrationController {
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
 
     @PostMapping()
     public void addUser(String name, String email, String password)
     {
-        List<User> existingUsers =  userRepo.findByEmail(email);
+        List<User> existingUsers =  userRepository.findByEmail(email);
 
         if (existingUsers.size() > 0) {
             throw new RuntimeException("User already exists");
@@ -37,12 +36,12 @@ public class RegistrationController {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
 
-        userRepo.save(user);
+        userRepository.save(user);
     }
 
     @Autowired
-    public void setUserRepo(UserRepository userRepo) {
-        this.userRepo = userRepo;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Autowired
