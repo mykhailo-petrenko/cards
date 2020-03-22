@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "postinstall": "ivy-ngcc",
-    "start": "ng serve",
+    "start": "ng serve  --proxy-config=proxy.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "api-client-update": "ng-swagger-gen -c ng-swagger-gen.config.json"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +41,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ng-swagger-gen": "^2.1.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
