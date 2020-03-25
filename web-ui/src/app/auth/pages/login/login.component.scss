@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+}
+
+mat-card {
+  width: 500px;
+  max-width: 100%;
+  min-width: 300px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-footer {
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .nav-btn + .nav-btn {
+    margin-left: 1em;
+  }
+}

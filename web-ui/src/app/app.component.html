@@ -1,3 +1,16 @@
+<mat-progress-bar
+  *ngIf="loading$ | async"
+  mode="indeterminate"
+></mat-progress-bar>
+
+<nav>
+  <ul>
+    <li><a routerLink="/">Learn</a></li>
+    <li><a routerLink="/login">Login</a></li>
+    <li><a href="#logout" (click)="logOut($event)">Logout</a></li>
+  </ul>
+</nav>
+
 <header>
   <h1>
     Welcome to {{ title }}!

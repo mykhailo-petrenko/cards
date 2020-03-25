@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { OperationHandlerService } from './api/services/operation-handler.service';
+import { ProgressBarService } from './shared/progress-bar.service';
+import { Observable } from 'rxjs';
+import { AuthenticationService } from './auth/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +12,23 @@ import { OperationHandlerService } from './api/services/operation-handler.servic
 export class AppComponent implements OnInit {
   title = 'Cards';
 
+  public readonly loading$: Observable<boolean>;
+
   constructor(
-    private operationHandlerService: OperationHandlerService
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private progressBar: ProgressBarService
   ) {
+    this.loading$ = this.progressBar.isLoading$;
   }
 
   ngOnInit(): void {
-    this.operationHandlerService.handleUsingGET1Response().toPromise()
-      .then((a) => {
-        console.log(a);
-      });
+  }
+
+  logOut($event): void {
+    $event.preventDefault();
+
+    this.authenticationService.logOut();
+    this.router.navigateByUrl('/login');
   }
 }

@@ -1,0 +1,13 @@
+<p>
+  random-card works!
+</p>
+
+<div
+  *ngIf="card$ | async as card"
+>
+  {{card.id}}
+  <div>Q: {{card.question}}</div>
+  <div>A: {{card.answer}}</div>
+</div>
+
+<button (click)="loadNext()">Next</button>
