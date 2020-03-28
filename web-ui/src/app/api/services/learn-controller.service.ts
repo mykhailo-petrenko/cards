@@ -1,5 +1,4 @@
 /* tslint:disable */
-/** AAAAA */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { BaseService as __BaseService } from '../base-service';
@@ -43,7 +42,7 @@ class LearnControllerService extends __BaseService {
     if (params.name != null) __params = __params.set('name', params.name.toString());
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/api/v1/learn/acknowledge/${encodeURIComponent(String(params.cardId))}`,
+      this.rootUrl + `/api/v1/learn/acknowledge/${params.cardId}`,
       __body,
       {
         headers: __headers,

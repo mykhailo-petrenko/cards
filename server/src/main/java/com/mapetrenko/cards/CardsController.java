@@ -10,10 +10,12 @@ import com.mapetrenko.cards.errors.CardNotFoundException;
 import com.mapetrenko.cards.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import com.mapetrenko.cards.model.Card;
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/v1/cards")
@@ -22,10 +24,15 @@ public class CardsController {
     private CardSearchRepository search;
     private UserDAO userDAO;
 
-    @GetMapping()
-    public Page<Card> getCards(Pageable pageable, Principal principal) {
+    @GetMapping("/")
+    public Page<Card> getCards(@PathParam("pageIndex") Integer pageIndex, Principal principal) {
         User user = (User)userDAO.loadUserByUsername(principal.getName());
 
+        if (pageIndex == null) {
+            pageIndex = 0;
+        }
+
+        Pageable pageable = PageRequest.of(pageIndex, 20);
         Page<Card> cards = search.findAllByUserId(user.getId(), pageable);
 
         System.out.println(principal);
