@@ -11,6 +11,7 @@ import { AbstractComponent } from '../../../utils/abstract.component';
 import { ProgressBarService } from '../../../shared/progress-bar.service';
 import { CrudCard } from '../../crud.model';
 import { NotificationService } from '../../../shared/notification.service';
+import { ConfirmService } from '../../../shared/confirm.service';
 
 @Component({
   selector: 'app-edit',
@@ -32,6 +33,7 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
     private crudService: CrudService,
     private progressBar: ProgressBarService,
     private notification: NotificationService,
+    private confirm: ConfirmService,
     private fb: FormBuilder
   ) {
     super(progressBar);
@@ -121,9 +123,17 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
     this.location.back();
   }
 
-  delete($event) {
+  async delete($event) {
     $event.preventDefault();
-    console.log('delete');
+    const isConfirmed = await this.confirm.dialog('Do you wanna delete card?');
+
+    if (isConfirmed) {
+      const removedCard = await this.crudService.deleteCard(this.sourceCard.id);
+
+      this.notification.success(`Card ${removedCard.id} removed.`);
+
+      this.router.navigateByUrl('/cards');
+    }
   }
 
 }

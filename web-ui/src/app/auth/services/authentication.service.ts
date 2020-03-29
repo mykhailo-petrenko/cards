@@ -31,9 +31,6 @@ export class AuthenticationService {
     return this.authenticationController.authenticateUsingPOST(body)
       .pipe(
         tap((response: {token: string}) => {
-          console.log(`auth`, response);
-          // @TODO: Save JWT token to storage
-
           this.setJwtToken(response.token);
         })
       )

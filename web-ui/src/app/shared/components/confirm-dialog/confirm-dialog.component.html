@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>
+  {{data.message}}
+</h1>
+<div
+  *ngIf="data.desription"
+  mat-dialog-content
+>
+  <p>{{data.desription}}</p>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-button
+    color="primary"
+    (click)="no()"
+  >No</button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="yes()"
+    cdkFocusInitial
+  >Yes</button>
+</div>

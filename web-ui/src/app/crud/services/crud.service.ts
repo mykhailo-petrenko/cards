@@ -41,4 +41,8 @@ export class CrudService {
       });
     }
   }
+
+  deleteCard(cardId: number): Promise<Card> {
+    return this.cardsControllerService.deleteCardUsingDELETE({ cardId }).toPromise();
+  }
 }

@@ -9,6 +9,8 @@ import { AbstractComponent } from '../../../utils/abstract.component';
 import { PageEvent } from '@angular/material/paginator';
 import { Card } from '../../../api/models';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NotificationService } from '../../../shared/notification.service';
+import { ConfirmService } from '../../../shared/confirm.service';
 
 @Component({
   selector: 'app-list',
@@ -39,7 +41,9 @@ export class ListComponent extends AbstractComponent implements OnInit, OnDestro
     private crudService: CrudService,
     private route: ActivatedRoute,
     private router: Router,
-    private progressBar: ProgressBarService
+    private progressBar: ProgressBarService,
+    private notification: NotificationService,
+    private confirm: ConfirmService
   ) {
     super(progressBar);
   }
@@ -70,5 +74,20 @@ export class ListComponent extends AbstractComponent implements OnInit, OnDestro
         this.loading$.next(false);
       }
     );
+  }
+
+  async delete($event, cardId: number) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    const isConfirmed = await this.confirm.dialog('Do you wanna delete card?');
+
+    if (isConfirmed) {
+      const removedCard = await this.crudService.deleteCard(cardId);
+
+      this.notification.success(`Card ${removedCard.id} removed.`);
+
+      this.loadPage(this.pageable.pageNumber);
+    }
   }
 }

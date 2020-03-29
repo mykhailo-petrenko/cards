@@ -48,6 +48,7 @@
 
       <div class="right-group">
         <button
+          *ngIf="sourceCard?.id"
           mat-button
           color="warn"
           (click)="delete($event)"
