@@ -3,7 +3,7 @@ import { AuthorisationService } from './authorisation.service';
 import { UserControllerService } from '../../api/services';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { UserDTO } from '../../api/models/user-dto';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class UserService {
     private authorisationService: AuthorisationService,
     private userControllerService: UserControllerService
   ) {
-    this.updateUserInfo().then((isLoggedIn: boolean) => {
-      this.authorisationService.setLoggedIn(true);
+    this.loadUserInfo().then((isLoggedIn: boolean) => {
+      this.authorisationService.setLoggedIn(isLoggedIn);
     });
 
     this.authorisationService.loggedIn$
@@ -29,18 +29,38 @@ export class UserService {
       )
       .subscribe((isLoggedIn: boolean): void => {
         if (isLoggedIn) {
-          this.updateUserInfo()
+          this.loadUserInfo();
         } else {
           this._user$.next(null);
         }
       });
   }
 
+  public updateUserInfo(userDTO: UserDTO): Promise<UserDTO> {
+    return this.userControllerService.updateMyInfoUsingPOST({
+      userDTO
+    })
+      .pipe(
+        tap((user: UserDTO) => {
+          this._user$.next(user);
+        })
+      )
+      .toPromise();
+  }
+
+  public updatePassword(password: string): Promise<null> {
+    return this.userControllerService.updatePasswordUsingPOST({
+      passwordDTO: {
+        password
+      }
+    }).toPromise();
+  }
+
   private getUserInfo(): Promise<UserDTO> {
     return this.userControllerService.getMyInfoUsingGET().toPromise();
   }
 
-  private updateUserInfo(): Promise<boolean> {
+  private loadUserInfo(): Promise<boolean> {
     return this.getUserInfo()
       .then(
         (user: UserDTO) => {

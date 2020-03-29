@@ -1,0 +1,80 @@
+
+<form
+  [formGroup]="userInfo"
+  (submit)="userInfoSubmit()"
+>
+  <mat-card class="crud-editor">
+    <mat-card-header>
+      <mat-card-title>User Info</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field
+        class="full-width"
+      >
+        <mat-label>Your Name</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+        >
+        <mat-error *ngIf="userInfo.controls.name.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="right-group">
+<!--        <button-->
+<!--          mat-button-->
+<!--          (click)="cancelUserInfo($event)"-->
+<!--        >Cancel</button>-->
+
+        <button
+          mat-raised-button
+          color="primary"
+        >Update</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
+<form
+  [formGroup]="userPassword"
+  (submit)="userPasswordSubmit()"
+>
+  <mat-card class="crud-editor">
+    <mat-card-header>
+      <mat-card-title>Change Password</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field
+        class="full-width"
+      >
+        <mat-label>New Password</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+        >
+        <mat-error *ngIf="userPassword.controls.password.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="right-group">
+        <button
+          mat-button
+          (click)="cancelPassword($event)"
+        >Cancel</button>
+
+        <button
+          mat-raised-button
+          color="primary"
+        >Update</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent, RegistrationComponent } from './auth';
+import { LoginComponent, RegistrationComponent, ProfileComponent } from './auth';
 import { RandomCardComponent } from './learn/pages/random-card/random-card.component';
 import { ListComponent } from './crud/pages/list/list.component';
 import { EditComponent } from './crud/pages/edit/edit.component';
@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegistrationComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent
   },
   {
     path: 'cards/edit/:cardId',

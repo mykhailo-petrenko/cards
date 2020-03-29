@@ -25,6 +25,14 @@ export abstract class AbstractComponent {
     });
   }
 
+  protected loading() {
+    this.loading$.next(true);
+  }
+
+  protected loaded() {
+    this.loading$.next(false);
+  }
+
   protected unsubscribe() {
     unsubscribe(this.subscriptions);
   }

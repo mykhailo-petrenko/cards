@@ -22,9 +22,8 @@ public class UserController {
 
     @PostMapping()
     public UserDTO updateMyInfo(@RequestBody UserDTO userDTO, Principal principal) throws UserPrincipalNotFoundException {
-        if (!principal.getName().equals(userDTO.getEmail())) {
-            throw new UserPrincipalNotFoundException(":o(");
-        }
+        UserDTO user = userService.getUser(principal.getName());
+        userDTO.setEmail(user.getEmail());
 
         return userService.updateUser(userDTO);
     }
