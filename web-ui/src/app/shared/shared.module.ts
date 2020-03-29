@@ -16,6 +16,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { ConfirmService } from './confirm.service';
 import { NotificationService } from './notification.service';
 import { ProgressBarService } from './progress-bar.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 const materialModules = [
   MatButtonModule,
@@ -24,6 +25,7 @@ const materialModules = [
   MatInputModule,
   MatProgressBarModule,
   MatSnackBarModule,
+  MatToolbarModule,
 ];
 
 const imports = [

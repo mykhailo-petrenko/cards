@@ -3,23 +3,30 @@
   mode="indeterminate"
 ></mat-progress-bar>
 
-<nav>
-  <ul>
-    <li><a routerLink="/">Learn</a></li>
-    <li><a routerLink="/cards/create">Create Card</a></li>
-    <li><a routerLink="/cards">Manage Cards</a></li>
-    <li><a routerLink="/login">Login</a></li>
-    <li><a href="#logout" (click)="logOut($event)">Logout</a></li>
-  </ul>
-</nav>
-
 <header>
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <nav>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Flash Cards</span>
+      <nav>
+        <ng-container
+          *ngIf="(loggedIn$ | async); else loggedOut"
+        >
+          <a mat-button routerLink="/">Learn</a>
+          <a mat-button routerLink="/cards/create">Create Card</a>
+          <a mat-button routerLink="/cards">Manage Cards</a>
+          <a mat-button href="#logout" (click)="logOut($event)">Logout</a>
+        </ng-container>
 
-  </nav>
+        <ng-template
+          #loggedOut
+        >
+          <a mat-button routerLink="/login">Login</a>
+          <a mat-button routerLink="/registration">Registration</a>
+        </ng-template>
+
+      </nav>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </header>
 <main>
   <router-outlet></router-outlet>

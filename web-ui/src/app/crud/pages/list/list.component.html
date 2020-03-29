@@ -1,6 +1,15 @@
 <ng-container
   *ngIf="page$ | async as page"
 >
+  <mat-paginator
+    [disabled]="loading$ | async"
+    [pageIndex]="page.number"
+    [length]="page.totalElements"
+    [pageSize]="page.size"
+    (page)="onPageEvent($event)"
+  >
+  </mat-paginator>
+
   <table mat-table
          [dataSource]="page.content"
          multiTemplateDataRows
