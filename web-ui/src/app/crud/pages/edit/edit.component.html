@@ -1,3 +1,69 @@
-<p>
-  edit works!
-</p>
+<form
+  [formGroup]="form"
+  (submit)="submit()"
+>
+
+  <mat-card class="crud-editor">
+    <mat-card-header>
+      <mat-card-title>Card Editor</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field
+        class="full-width"
+      >
+        <mat-label>Question</mat-label>
+        <textarea
+          matInput
+          type="text"
+          placeholder="Question"
+          formControlName="question"
+        ></textarea>
+        <mat-error *ngIf="form.controls.question.hasError('required')">
+          Question is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        class="full-width"
+      >
+        <mat-label>Answer</mat-label>
+        <textarea
+          matInput
+          type="text"
+          placeholder="Answer"
+          formControlName="answer"
+        ></textarea>
+        <mat-error *ngIf="form.controls.answer.hasError('required')">
+          Answer is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-button
+        class="go-back"
+        (click)="goBack($event)"
+      > &larr; Go Back</button>
+
+      <div class="right-group">
+        <button
+          mat-button
+          color="warn"
+          (click)="delete($event)"
+        >Delete</button>
+
+        <button
+          mat-button
+          (click)="cancel($event)"
+        >Cancel</button>
+
+        <button
+          mat-raised-button
+          color="primary"
+        >Update</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+
+</form>

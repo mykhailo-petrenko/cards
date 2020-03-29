@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { CardsControllerService } from '../../api/services';
 import { PageCard } from '../../api/models/page-card';
+import { Card } from '../../api/models/card';
 
 @Injectable()
 export class CrudService {
@@ -15,5 +16,29 @@ export class CrudService {
     return this.cardsControllerService.getCardsUsingGET({
       pageIndex
     });
+  }
+
+  getCard(cardId: number): Observable<Card> {
+    return this.cardsControllerService.getCardUsingGET({
+      cardId
+    });
+  }
+
+  getBlankCard(): Observable<Card> {
+    return of({
+    } as Card);
+  }
+
+  updateCard(card: Card): Observable<Card> {
+    if (card.id) {
+      return this.cardsControllerService.updateCardUsingPOST({
+        cardId: card.id,
+        card
+      });
+    } else {
+      return this.cardsControllerService.createCardUsingPOST({
+        card
+      });
+    }
   }
 }

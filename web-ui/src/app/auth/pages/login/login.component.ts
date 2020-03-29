@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ProgressBarService } from '../../../shared/progress-bar.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +41,7 @@ export class LoginComponent {
       password: this.form.value.password,
       rememberMe: this.form.value.rememberMe
     }).then(
-      (response) => {
+      () => {
         this.progressBar.loaded();
 
         return this.router.navigateByUrl('/');

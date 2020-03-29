@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { LearnService } from '../../services/learn.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subject } from 'rxjs';
+
+import { LearnService } from '../../services/learn.service';
 import { ProgressBarService } from '../../../shared/progress-bar.service';
 import { Card } from '../../../api/models/card';
-import { MatSnackBar } from '@angular/material';
+
 
 @Component({
   selector: 'app-random-card',
@@ -12,7 +14,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class RandomCardComponent implements OnInit {
 
-  private readonly card$: Subject<Card> = new BehaviorSubject<Card>(null);;
+  private readonly card$: Subject<Card> = new BehaviorSubject<Card>(null);
 
   constructor(
     private learnService: LearnService,

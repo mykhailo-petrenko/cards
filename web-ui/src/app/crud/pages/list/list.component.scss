@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  min-width: 300px;
+  width: 100%;
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+td.mat-column-id {
+  width: 80px;
+}
+
+td.mat-column-actions {
+  width: 150px;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.card-answer {
+  width: 100%;
+  padding: 1em 2em;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+

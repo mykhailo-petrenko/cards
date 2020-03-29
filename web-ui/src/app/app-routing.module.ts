@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent, RegistrationComponent } from './auth';
 import { RandomCardComponent } from './learn/pages/random-card/random-card.component';
 import { ListComponent } from './crud/pages/list/list.component';
+import { EditComponent } from './crud/pages/edit/edit.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,14 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegistrationComponent
+  },
+  {
+    path: 'cards/edit/:cardId',
+    component: EditComponent
+  },
+  {
+    path: 'cards/create',
+    component: EditComponent
   },
   {
     path: 'cards/page/:page',

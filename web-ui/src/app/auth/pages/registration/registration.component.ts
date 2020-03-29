@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 
 import { RegistrationControllerService } from '../../../api/services';
 import AddUserUsingPOSTParams = RegistrationControllerService.AddUserUsingPOSTParams;
 import { ProgressBarService } from '../../../shared/progress-bar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registration',
@@ -41,7 +41,7 @@ export class RegistrationComponent {
       email: this.form.value.email,
       password: this.form.value.password
     } as AddUserUsingPOSTParams).toPromise().then(
-      (response) => {
+      () => {
         this.progressBar.loaded();
 
         return this.router.navigateByUrl('/login');

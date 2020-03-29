@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.crud-editor {
+  width: 800px;
+  max-width: 100%;
+  min-width: 400px;
+  margin: 0 auto;
+}
+
+
+mat-form-field.full-width {
+  width: 100%;
+  max-width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+
+  .right-group {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.go-back {
+  justify-self: flex-start;
+}

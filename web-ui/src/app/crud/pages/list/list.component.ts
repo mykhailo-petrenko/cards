@@ -1,33 +1,39 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CrudService } from '../../services/crud.service';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { unsubscribe } from '../../../utils/helper';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { PageCard } from '../../../api/models/page-card';
-import { PageEvent } from '@angular/material';
 import { ProgressBarService } from '../../../shared/progress-bar.service';
 import { Pageable } from '../../../api/models/pageable';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractComponent } from '../../../utils/abstract.component';
+import { PageEvent } from '@angular/material/paginator';
+import { Card } from '../../../api/models';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent extends AbstractComponent implements OnInit, OnDestroy {
 
-  public readonly loading$: Subject<boolean>;
   public get page$(): Observable<PageCard> {
     return this.pageCard$.asObservable();
   }
 
   private pageCard$: Subject<PageCard> = new BehaviorSubject<PageCard>(null);
   private pageable: Pageable;
-  private subscriptions: Subscription[] = [];
 
-  private set subscription(value: Subscription) {
-    this.subscriptions.push(value);
-  }
+  public columnsToDisplay = ['id', 'question', 'actions'];
+  public expandedElement: Card | null;
 
   constructor(
     private crudService: CrudService,
@@ -35,17 +41,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private router: Router,
     private progressBar: ProgressBarService
   ) {
-    this.loading$ = new BehaviorSubject<boolean>(false);
-
-    this.subscription = this.loading$.subscribe((isLoading: boolean) => {
-
-      if (isLoading) {
-        this.progressBar.loading();
-      } else {
-        this.progressBar.loaded();
-      }
-
-    });
+    super(progressBar);
   }
 
   ngOnInit(): void {
@@ -57,7 +53,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    unsubscribe(this.subscriptions);
+    this.unsubscribe();
   }
 
   public onPageEvent($event: PageEvent): void {
