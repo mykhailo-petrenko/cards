@@ -14,4 +14,8 @@ export class LearnService {
   public getRandomCard(): Promise<Card> {
     return this.learnController.getRandomCardUsingGET().toPromise();
   }
+
+  public acknowledgeCard(cardId: number): Promise<null> {
+    return this.learnController.acknowledgeUsingPOST({cardId}).toPromise();
+  }
 }
