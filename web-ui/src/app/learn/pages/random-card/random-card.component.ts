@@ -17,7 +17,7 @@ export class RandomCardComponent extends AbstractComponent implements OnInit, On
 
   public isAnswerVisible: boolean;
 
-  private readonly card$: Subject<Card> = new BehaviorSubject<Card>(null);
+  public readonly card$: Subject<Card> = new BehaviorSubject<Card>(null);
 
   constructor(
     private learnService: LearnService,

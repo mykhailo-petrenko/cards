@@ -24,7 +24,7 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
 
   public form: FormGroup;
 
-  private sourceCard: Card;
+  public sourceCard: Card;
 
   constructor(
     private route: ActivatedRoute,

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { environment } from '../environments/environment';
 
 import { ApiModule } from './api/api.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +17,7 @@ import { LearnModule } from './learn/learn.module';
     SharedModule,
     AppRoutingModule,
     ApiModule.forRoot({
-      rootUrl: ''
+      rootUrl: environment.apiUrl
     }),
     AuthModule,
     CrudModule,

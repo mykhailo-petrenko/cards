@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "api-client-update": "ng-swagger-gen -c ng-swagger-gen.config.json"
+    "api-client-update": "ng-swagger-gen -c ng-swagger-gen.config.json",
+    "predeploy-surge": "ng build --prod",
+    "deploy-surge": "surge ./dist/Cards/ fcards.surge.sh"
   },
   "private": true,
   "dependencies": {
