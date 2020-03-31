@@ -12,6 +12,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ConfirmService } from './confirm.service';
@@ -28,6 +32,10 @@ const materialModules = [
   MatProgressBarModule,
   MatSnackBarModule,
   MatToolbarModule,
+  MatMenuModule,
+  MatIconModule,
+  MatTooltipModule,
+  MatDividerModule,
 ];
 
 const imports = [

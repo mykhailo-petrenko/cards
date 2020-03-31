@@ -6,25 +6,88 @@
 <header>
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>Flash Cards</span>
+      <a
+        routerLink="/"
+        class="title"
+      >Flash Cards</a>
+
       <nav>
         <ng-container
           *ngIf="(loggedIn$ | async); else loggedOut"
         >
-          <a mat-button routerLink="/">Learn</a>
-          <a mat-button routerLink="/cards/create">Create Card</a>
-          <a mat-button routerLink="/cards">Manage Cards</a>
-          <a mat-button routerLink="/profile">Hi {{(user$ | async).name}}</a>
-          <a mat-button href="#logout" (click)="logOut($event)">Logout</a>
+
+          <button
+            mat-icon-button
+            routerLink="/cards/create"
+            aria-label="Add card"
+            matTooltip="Create New Card"
+          >
+            <mat-icon>add_box</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Expand Menu"
+            matTooltip="Expand Menu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button
+              mat-menu-item
+              routerLink="/"
+            >
+              <mat-icon>school</mat-icon>
+              <span>Learn</span>
+            </button>
+            <button
+              mat-menu-item
+              routerLink="/cards"
+            >
+              <mat-icon>edit</mat-icon>
+              <span>Manage Cards</span>
+            </button>
+            <button
+              mat-menu-item
+              routerLink="/profile"
+            >
+              <mat-icon>account_box</mat-icon>
+              <span>Hi {{(user$ | async).name}}</span>
+            </button>
+
+            <button
+              mat-menu-item
+              (click)="logOut($event)"
+            >
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Logout</span>
+            </button>
+
+          </mat-menu>
         </ng-container>
 
         <ng-template
           #loggedOut
         >
-          <a mat-button routerLink="/login">Login</a>
-          <a mat-button routerLink="/registration">Registration</a>
+          <button
+            mat-icon-button
+            routerLink="/login"
+            aria-label="Login"
+            matTooltip="Login"
+          >
+            <mat-icon>input</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            routerLink="/registration"
+            aria-label="Registration"
+            matTooltip="Registration"
+          >
+            <mat-icon>how_to_reg</mat-icon>
+          </button>
         </ng-template>
-
       </nav>
     </mat-toolbar-row>
   </mat-toolbar>

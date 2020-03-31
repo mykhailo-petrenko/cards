@@ -4,8 +4,23 @@
     class="learning-card"
   >
     <mat-card-header>
-      <mat-card-title>Card {{card.id}} <a [routerLink]="['/cards/edit', card.id]">edit</a> </mat-card-title>
+      <mat-card-title>
+        # {{card.id}}
+      </mat-card-title>
+      <div class="card-title-actions">
+        <button
+          mat-icon-button
+          [routerLink]="['/cards/edit', card.id]"
+          aria-label="Edit card"
+          matTooltip="Edit Card"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
     </mat-card-header>
+
+    <mat-divider></mat-divider>
+
     <mat-card-content>
       <ng-container
         *ngIf="!isAnswerVisible"
@@ -27,11 +42,15 @@
         </section>
       </ng-container>
     </mat-card-content>
+
+    <mat-divider></mat-divider>
+
     <mat-card-actions>
       <button
         mat-button
         color="accent"
         (click)="nextCard()"
+        matTooltip="Show next question"
       >Dont know</button>
 
       <button
@@ -39,6 +58,7 @@
         mat-button
         color="primary"
         (click)="showAnswer()"
+        matTooltip="Show the answer"
       >Self Check</button>
 
       <button
@@ -46,12 +66,14 @@
         mat-button
         color="primary"
         (click)="showQuestion()"
+        matTooltip="Back to question"
       >Show question</button>
 
       <button
         mat-raised-button
         color="primary"
         (click)="acknowledge(card.id)"
+        matTooltip="Do not more show this question"
       >Acknowledge</button>
 
     </mat-card-actions>

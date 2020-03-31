@@ -9,8 +9,13 @@
 mat-toolbar-row {
   display: flex;
   justify-content: space-between;
+
+  a.title {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 main {
-  margin: 1em;
+  margin: 2em 1em;
 }
