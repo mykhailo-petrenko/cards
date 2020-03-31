@@ -11,12 +11,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ConfirmService } from './confirm.service';
 import { NotificationService } from './notification.service';
 import { ProgressBarService } from './progress-bar.service';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MdPipe } from './pipes/md.pipe';
+import { MdViewComponent } from './components/md-view/md-view.component';
 
 const materialModules = [
   MatButtonModule,
@@ -41,6 +43,8 @@ const imports = [
 @NgModule({
   declarations: [
     ConfirmDialogComponent,
+    MdPipe,
+    MdViewComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent
@@ -50,6 +54,8 @@ const imports = [
   ],
   exports: [
     ...imports,
+    MdPipe,
+    MdViewComponent,
   ],
   providers: [
     ProgressBarService,

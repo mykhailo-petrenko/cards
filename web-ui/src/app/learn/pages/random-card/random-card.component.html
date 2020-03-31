@@ -13,7 +13,7 @@
         <section
           class="card-question"
         >
-          {{card.question}}
+          <app-md-view [text]="card.question"></app-md-view>
         </section>
       </ng-container>
 
@@ -23,7 +23,7 @@
         <section
           class="card-answer"
         >
-          {{card.answer}}
+          <app-md-view [text]="card.answer"></app-md-view>
         </section>
       </ng-container>
     </mat-card-content>
