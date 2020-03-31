@@ -45,13 +45,14 @@
       color="primary"
       class="nav-btn"
       [routerLink]="['/registration']"
+      [disabled]="loading$ | async"
     >Registration</a>
 
     <button
       mat-raised-button
       color="primary"
       class="nav-btn"
-      [disabled]="form.invalid"
+      [disabled]="loading$ | async"
       (click)="authenticate()"
     >Login</button>
 

@@ -1,8 +1,11 @@
+import { OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+
 import { unsubscribe } from './helper';
 import { ProgressBarService } from '../shared/progress-bar.service';
+import { AbstractControl } from '@angular/forms';
 
-export abstract class AbstractComponent {
+export abstract class AbstractComponent implements OnDestroy {
   public readonly loading$: Subject<boolean>;
 
   protected set subscription(value: Subscription) {
@@ -33,7 +36,21 @@ export abstract class AbstractComponent {
     this.loading$.next(false);
   }
 
+  public ngOnDestroy(): void {
+    this.unsubscribe();
+  }
+
   protected unsubscribe() {
     unsubscribe(this.subscriptions);
+  }
+
+  protected disableFormControlsWhileLoading(form: AbstractControl) {
+    this.subscription = this.loading$.subscribe((isLoading: boolean) => {
+      if (isLoading) {
+        form.disable();
+      } else {
+        form.enable();
+      }
+    });
   }
 }

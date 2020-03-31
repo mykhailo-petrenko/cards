@@ -65,13 +65,13 @@ export class ListComponent extends AbstractComponent implements OnInit, OnDestro
   }
 
   loadPage(pageIndex: number = 0) {
-    this.loading$.next(true);
+    this.loading();
 
     this.subscription = this.crudService.getPage(pageIndex).subscribe(
       (page: PageCard) => {
         this.pageable = page.pageable;
         this.pageCard$.next(page);
-        this.loading$.next(false);
+        this.loaded();
       }
     );
   }
@@ -83,6 +83,8 @@ export class ListComponent extends AbstractComponent implements OnInit, OnDestro
     const isConfirmed = await this.confirm.dialog('Do you wanna delete card?');
 
     if (isConfirmed) {
+      this.loading();
+
       const removedCard = await this.crudService.deleteCard(cardId);
 
       this.notification.success(`Card ${removedCard.id} removed.`);

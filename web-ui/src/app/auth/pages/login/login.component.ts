@@ -5,13 +5,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ProgressBarService } from '../../../shared/progress-bar.service';
+import { AbstractComponent } from '../../../utils/abstract.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent extends AbstractComponent {
 
   public readonly form: FormGroup;
 
@@ -22,11 +23,15 @@ export class LoginComponent {
     private progressBar: ProgressBarService,
     private snackBar: MatSnackBar
   ) {
+    super(progressBar);
+
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       rememberMe: [false, []]
     });
+
+    this.disableFormControlsWhileLoading(this.form);
   }
 
   authenticate() {
@@ -34,7 +39,7 @@ export class LoginComponent {
       return;
     }
 
-    this.progressBar.loading();
+    this.loading();
 
     this.authenticationService.logIn({
       email: this.form.value.email,
@@ -42,7 +47,7 @@ export class LoginComponent {
       rememberMe: this.form.value.rememberMe
     }).then(
       () => {
-        this.progressBar.loaded();
+        this.loaded();
 
         return this.router.navigateByUrl('/');
       },
@@ -51,7 +56,7 @@ export class LoginComponent {
         console.error(error);
         // @TODO: Error notification
 
-        this.progressBar.loaded();
+        this.loaded();
       }
     );
   }

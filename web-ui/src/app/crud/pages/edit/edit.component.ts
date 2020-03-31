@@ -38,6 +38,7 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
   ) {
     super(progressBar);
     this.card$ = new BehaviorSubject<CrudCard>(null);
+    this.loading();
   }
 
   ngOnInit() {
@@ -46,10 +47,12 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
       answer: ['', [Validators.required]]
     });
 
+    this.disableFormControlsWhileLoading(this.form);
+
     this.subscription = this.route.paramMap
       .pipe(
         tap(() => {
-          this.loading$.next(true);
+          this.loading();
         }),
         map((params): number => parseInt(params.get('cardId'), 10) || 0),
         switchMap((cardId) => {
@@ -68,7 +71,7 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
       (card: CrudCard) => {
         this.card$.next(card);
         this.updateForm(card);
-        this.loading$.next(false);
+        this.loaded();
       }
     );
   }
@@ -96,7 +99,7 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
       ...this.form.value
     } as Card;
 
-    this.loading$.next(true);
+    this.loading();
 
     this.subscription = this.crudService.updateCard(card)
       .subscribe(
@@ -108,7 +111,7 @@ export class EditComponent extends AbstractComponent implements OnInit, OnDestro
           this.notification.error(`Failed to update: ${error}`);
         },
         () => {
-          this.loading$.next(false)
+          this.loaded();
         }
       )
   }

@@ -25,6 +25,8 @@ export class RandomCardComponent extends AbstractComponent implements OnInit, On
     private notification: NotificationService
   ) {
     super(progressBar);
+
+    this.loading();
   }
 
   ngOnInit() {
@@ -67,15 +69,15 @@ export class RandomCardComponent extends AbstractComponent implements OnInit, On
   }
 
   private loadCard() {
-    this.progressBar.loading();
+    this.loading();
 
     this.learnService.getRandomCard().then(
       (card: any) => {
         this.card$.next(card);
-        this.progressBar.loaded();
+        this.loaded();
       },
       (error) => {
-        this.progressBar.loaded();
+        this.loaded();
 
         this.notification.success(error.message);
       }

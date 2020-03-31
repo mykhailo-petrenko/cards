@@ -70,6 +70,7 @@
         mat-button
         class="go-back"
         (click)="goBack($event)"
+        [disabled]="loading$ | async"
       > &larr; Go Back</button>
 
       <div class="right-group">
@@ -78,11 +79,13 @@
           mat-button
           color="warn"
           (click)="delete($event)"
+          [disabled]="loading$ | async"
         >Delete</button>
 
         <button
           mat-button
           (click)="cancel($event)"
+          [disabled]="loading$ | async"
         >Cancel</button>
 
         <button

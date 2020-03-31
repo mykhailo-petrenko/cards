@@ -54,7 +54,7 @@
               routerLink="/profile"
             >
               <mat-icon>account_box</mat-icon>
-              <span>Hi {{(user$ | async).name}}</span>
+              <span>Hi {{(user$ | async)?.name}}</span>
             </button>
 
             <button
