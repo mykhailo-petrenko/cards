@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class UserDAO implements UserDetailsService {
     private EntityManager entityManager;
 
     public List<User> findByEmail(String email) {
-        Query query = entityManager.createQuery("FROM User u where u.email = :email");
+        TypedQuery<User> query = entityManager.createQuery("FROM User u where u.email = :email", User.class);
 
         query.setParameter("email", email);
 

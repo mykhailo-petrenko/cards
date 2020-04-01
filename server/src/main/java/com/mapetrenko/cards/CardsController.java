@@ -1,10 +1,8 @@
 package com.mapetrenko.cards;
 
 import java.security.Principal;
-import java.util.Optional;
 
 import com.mapetrenko.cards.dao.CardCrudRepository;
-import com.mapetrenko.cards.dao.CardSearchRepository;
 import com.mapetrenko.cards.dao.UserDAO;
 import com.mapetrenko.cards.errors.CardNotFoundException;
 import com.mapetrenko.cards.model.User;
@@ -21,13 +19,11 @@ import javax.websocket.server.PathParam;
 @RequestMapping("/api/v1/cards")
 public class CardsController {
     private CardCrudRepository crud;
-    private CardSearchRepository search;
     private UserDAO userDAO;
 
     @Autowired
-    public CardsController(CardCrudRepository crud, CardSearchRepository search, UserDAO userDAO) {
+    public CardsController(CardCrudRepository crud, UserDAO userDAO) {
         this.crud = crud;
-        this.search = search;
         this.userDAO = userDAO;
     }
 
@@ -40,7 +36,7 @@ public class CardsController {
         }
 
         Pageable pageable = PageRequest.of(pageIndex, 20);
-        Page<Card> cards = search.findAllByUserId(user.getId(), pageable);
+        Page<Card> cards = crud.findAllByUserId(user.getId(), pageable);
 
         System.out.println(principal);
 
