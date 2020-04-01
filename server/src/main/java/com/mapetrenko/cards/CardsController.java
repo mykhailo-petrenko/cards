@@ -50,17 +50,15 @@ public class CardsController {
     @GetMapping("/{cardId}")
     public Card getCard(@PathVariable("cardId") Long cardId, Principal principal) {
         User user = (User)userDAO.loadUserByUsername(principal.getName());
-        Optional<Card> card = crud.findById(cardId);
 
-        if (!card.isPresent()) {
+        Card card = crud.findById(cardId)
+            .orElseThrow(() -> new CardNotFoundException("There is no Card  with such id."));
+
+        if (card.getUserId() != user.getId()) {
             throw new CardNotFoundException("There is no Card  with such id.");
         }
 
-        if (card.get().getUserId() != user.getId()) {
-            throw new CardNotFoundException("There is no Card  with such id.");
-        }
-
-        return card.orElse(null);
+        return card;
     }
 
     @PostMapping()
@@ -75,15 +73,13 @@ public class CardsController {
 
     @PostMapping("/{cardId}")
     public Card updateCard(@PathVariable("cardId") Long cardId, @RequestBody Card card, Principal principal) {
-        Optional<Card> existingCard = crud.findById(cardId);
+        Card existingCard = crud.findById(cardId)
+            .orElseThrow(() -> new CardNotFoundException("There is no Card  with such id."));
+
+
+        card.setId(existingCard.getId());
+
         User user = (User)userDAO.loadUserByUsername(principal.getName());
-
-        if (!existingCard.isPresent()) {
-            throw new CardNotFoundException("There is no Card  with such id.");
-        }
-
-        card.setId(existingCard.get().getId());
-
         if (card.getUserId() != user.getId()) {
             throw new CardNotFoundException("There is no Card  with such id.");
         }
@@ -95,20 +91,17 @@ public class CardsController {
 
     @DeleteMapping("/{cardId}")
     public Card deleteCard(@PathVariable("cardId") Long cardId, Principal principal) {
-        Optional<Card> existingCard = crud.findById(cardId);
+        Card existingCard = crud.findById(cardId)
+            .orElseThrow(() -> new CardNotFoundException("There is no Card  with such id."));
+
         User user = (User)userDAO.loadUserByUsername(principal.getName());
-
-        if (!existingCard.isPresent()) {
-            throw new CardNotFoundException("There is no Card  with such id.");
-        }
-
-        if (existingCard.get().getUserId() != user.getId()) {
+        if (existingCard.getUserId() != user.getId()) {
             throw new CardNotFoundException("There is no Card  with such id.");
         }
 
         crud.deleteById(cardId);
 
-        return existingCard.get();
+        return existingCard;
     }
 
 }

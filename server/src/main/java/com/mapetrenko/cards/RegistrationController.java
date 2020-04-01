@@ -1,6 +1,7 @@
 package com.mapetrenko.cards;
 
 import com.mapetrenko.cards.dao.UserRepository;
+import com.mapetrenko.cards.errors.UserAlreadyExistsException;
 import com.mapetrenko.cards.model.Role;
 import com.mapetrenko.cards.model.User;
 import com.mapetrenko.cards.security.CardsPasswordEncoder;
@@ -21,18 +22,18 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public RegistrationController(UserRepository userRepository, CardsPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping()
-    public void addUser(String name, String email, String password)
+    public void addUser(String name, String email, String password) throws UserAlreadyExistsException
     {
         List<User> existingUsers =  userRepository.findByEmail(email);
 
         if (existingUsers.size() > 0) {
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistsException("User already exists");
         }
 
         User user = new User();

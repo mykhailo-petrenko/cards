@@ -12,12 +12,13 @@ import javax.persistence.TemporalType;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class LearningService {
     private CardCrudRepository crud;
 
+    @Autowired
     public LearningService(CardCrudRepository crud) {
         this.crud = crud;
     }
@@ -50,13 +51,9 @@ public class LearningService {
     }
 
     public void acknowledge(long cardId, long userId) throws CardNotFoundException {
-        Optional<Card> existingCard = crud.findById(cardId);
 
-        if (!existingCard.isPresent()) {
-            throw new CardNotFoundException("There is no Card with such id.");
-        }
-
-        Card card = existingCard.get();
+        Card card = crud.findById(cardId)
+            .orElseThrow(() -> new CardNotFoundException("There is no Card with such id."));
 
         if (card.getUserId() != userId) {
             throw new CardNotFoundException("There is no Card with such id.");
