@@ -12,11 +12,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 class CardsApplicationTests {
 
-	@Value("${spring.datasource.url}") private String firstProperty;
+    @Value("${spring.datasource.url}")
+    private String firstProperty;
 
-	@Test
-	void contextLoads() {
-		System.out.println(firstProperty);
-	}
+    @Test
+    void contextLoads() {
+        System.out.println(firstProperty);
+    }
 
 }
