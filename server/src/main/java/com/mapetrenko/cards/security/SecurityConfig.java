@@ -28,6 +28,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtRequestFilter jwtRequestFilter;
 
+    @Autowired
+    public SecurityConfig(
+        CardsPasswordEncoder passwordEncoder,
+        CardsAuthenticationProvider authProvider,
+        UserDAO userDetailsService,
+        JwtRequestFilter jwtRequestFilter
+    ) {
+        this.passwordEncoder = passwordEncoder;
+        this.authProvider = authProvider;
+        this.userDetailsService = userDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
+
+//    public SecurityConfig(boolean disableDefaults, CardsPasswordEncoder passwordEncoder, CardsAuthenticationProvider authProvider, UserDAO userDetailsService, JwtRequestFilter jwtRequestFilter) {
+//        super(disableDefaults);
+//        this.passwordEncoder = passwordEncoder;
+//        this.authProvider = authProvider;
+//        this.userDetailsService = userDetailsService;
+//        this.jwtRequestFilter = jwtRequestFilter;
+//    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
@@ -58,26 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Autowired
-    public void setPasswordEncoder(CardsPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Autowired
-    public void setAuthProvider(CardsAuthenticationProvider authProvider) {
-        this.authProvider = authProvider;
-    }
-
-    @Autowired
-    public void setUserDetailsService(UserDAO userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
-    @Autowired
-    public void setJwtRequestFilter(JwtRequestFilter jwtRequestFilter) {
-        this.jwtRequestFilter = jwtRequestFilter;
     }
 
     @Bean

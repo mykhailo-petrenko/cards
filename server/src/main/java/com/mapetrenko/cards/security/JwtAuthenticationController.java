@@ -19,6 +19,13 @@ public class JwtAuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    public JwtAuthenticationController(UserRepository userRepository, JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.authenticationManager = authenticationManager;
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody JwtAuthenticationRequest request) {
         try {
@@ -49,18 +56,4 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
-    @Autowired
-    public void setJwtTokenUtil(JwtTokenUtil jwtTokenUtil) {
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 }

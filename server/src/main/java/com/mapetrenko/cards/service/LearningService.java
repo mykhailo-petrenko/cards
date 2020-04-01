@@ -18,6 +18,10 @@ import java.util.Optional;
 public class LearningService {
     private CardCrudRepository crud;
 
+    public LearningService(CardCrudRepository crud) {
+        this.crud = crud;
+    }
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -61,10 +65,5 @@ public class LearningService {
         card.setAcknowledged(new Date());
 
         crud.save(card);
-    }
-
-    @Autowired
-    public void setCrud(CardCrudRepository crud) {
-        this.crud = crud;
     }
 }

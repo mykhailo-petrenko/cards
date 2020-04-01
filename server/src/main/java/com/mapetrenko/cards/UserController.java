@@ -12,8 +12,12 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/me")
 public class UserController {
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping()
     public UserDTO getMyInfo(Principal principal) throws UserPrincipalNotFoundException {

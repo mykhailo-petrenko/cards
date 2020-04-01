@@ -21,6 +21,12 @@ public class CardsAuthenticationProvider implements AuthenticationProvider {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public CardsAuthenticationProvider(UserService userService, CardsPasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -53,13 +59,4 @@ public class CardsAuthenticationProvider implements AuthenticationProvider {
         return true;
     }
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(CardsPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 }

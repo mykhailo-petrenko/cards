@@ -24,6 +24,13 @@ public class CardsController {
     private CardSearchRepository search;
     private UserDAO userDAO;
 
+    @Autowired
+    public CardsController(CardCrudRepository crud, CardSearchRepository search, UserDAO userDAO) {
+        this.crud = crud;
+        this.search = search;
+        this.userDAO = userDAO;
+    }
+
     @GetMapping("/")
     public Page<Card> getCards(@PathParam("pageIndex") Integer pageIndex, Principal principal) {
         User user = (User)userDAO.loadUserByUsername(principal.getName());
@@ -104,18 +111,4 @@ public class CardsController {
         return existingCard.get();
     }
 
-    @Autowired
-    public void setCrud(CardCrudRepository crud) {
-        this.crud = crud;
-    }
-
-    @Autowired
-    public void setSearch(CardSearchRepository search) {
-        this.search = search;
-    }
-
-    @Autowired
-    public void setUserDAO(UserDAO user) {
-        this.userDAO = user;
-    }
 }

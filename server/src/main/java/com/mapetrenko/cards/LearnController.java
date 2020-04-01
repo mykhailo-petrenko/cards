@@ -15,6 +15,12 @@ public class LearnController {
     private LearningService learningService;
     private UserDAO userDAO;
 
+    @Autowired
+    public LearnController(LearningService learningService, UserDAO userDAO) {
+        this.learningService = learningService;
+        this.userDAO = userDAO;
+    }
+
     @GetMapping(path = "/card")
     public Card getRandomCard(Principal principal) {
         User user = (User)userDAO.loadUserByUsername(principal.getName());
@@ -30,15 +36,5 @@ public class LearnController {
         User user = (User)userDAO.loadUserByUsername(principal.getName());
 
         learningService.acknowledge(cardId, user.getId());
-    }
-
-    @Autowired
-    public void setLearningService(LearningService learningService) {
-        this.learningService = learningService;
-    }
-
-    @Autowired
-    public void setUserDAO(UserDAO user) {
-        this.userDAO = user;
     }
 }

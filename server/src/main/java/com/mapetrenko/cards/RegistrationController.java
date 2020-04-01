@@ -20,6 +20,12 @@ public class RegistrationController {
 
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @PostMapping()
     public void addUser(String name, String email, String password)
     {
@@ -39,13 +45,4 @@ public class RegistrationController {
         userRepository.save(user);
     }
 
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(CardsPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 }
