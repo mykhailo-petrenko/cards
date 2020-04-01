@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ProgressBarService } from '../../../shared/progress-bar.service';
 import { AbstractComponent } from '../../../utils/abstract.component';
+import { NotificationService } from '../../../shared/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent extends AbstractComponent {
     private fb: FormBuilder,
     private router: Router,
     private progressBar: ProgressBarService,
-    private snackBar: MatSnackBar
+    private notification: NotificationService
   ) {
     super(progressBar);
 
@@ -52,7 +52,8 @@ export class LoginComponent extends AbstractComponent {
         return this.router.navigateByUrl('/');
       },
       (error) => {
-        this.snackBar.open(error && error.message, 'ok');
+        this.notification.error(`Login or Password incorrect :o(`);
+
         console.error(error);
         // @TODO: Error notification
 

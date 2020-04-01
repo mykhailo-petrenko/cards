@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HttpSentEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthenticationService } from './authentication.service';
-import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  private readonly UNAUTHORIZED_STATUSES = [403];
+  private readonly UNAUTHORIZED_STATUSES = [401, 403];
 
   constructor(
     private authenticationService: AuthenticationService,

@@ -78,8 +78,7 @@ export class RandomCardComponent extends AbstractComponent implements OnInit, On
       },
       (error) => {
         this.loaded();
-
-        this.notification.success(error.message);
+        console.error(error);
       }
     );
   }
