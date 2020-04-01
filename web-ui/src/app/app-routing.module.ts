@@ -5,6 +5,7 @@ import { LoginComponent, RegistrationComponent, ProfileComponent } from './auth'
 import { RandomCardComponent } from './learn/pages/random-card/random-card.component';
 import { ListComponent } from './crud/pages/list/list.component';
 import { EditComponent } from './crud/pages/edit/edit.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 const routes: Routes = [
@@ -44,6 +45,12 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    }
+  ]
 })
 export class AppRoutingModule { }
