@@ -1,12 +1,12 @@
-<mat-card>
-  <mat-card-title>
-    Login
-  </mat-card-title>
-  <mat-card-content>
-    <form
-      [formGroup]="form"
-      (ngSubmit)="authenticate()"
-    >
+<form
+  [formGroup]="form"
+  (submit)="authenticate()"
+>
+  <mat-card>
+    <mat-card-title>
+      Login
+    </mat-card-title>
+    <mat-card-content>
       <mat-form-field
         class="example-full-width"
       >
@@ -36,25 +36,25 @@
           formControlName="password"
         >
       </mat-form-field>
-    </form>
-  </mat-card-content>
-  <mat-card-footer>
+    </mat-card-content>
+    <mat-card-footer>
 
-    <a
-      mat-button
-      color="primary"
-      class="nav-btn"
-      [routerLink]="['/registration']"
-      [disabled]="loading$ | async"
-    >Registration</a>
+      <a
+        mat-button
+        color="primary"
+        class="nav-btn"
+        [routerLink]="['/registration']"
+        [disabled]="loading$ | async"
+      >Registration</a>
 
-    <button
-      mat-raised-button
-      color="primary"
-      class="nav-btn"
-      [disabled]="loading$ | async"
-      (click)="authenticate()"
-    >Login</button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="nav-btn"
+        [disabled]="loading$ | async"
+        (click)="authenticate()"
+      >Login</button>
 
-  </mat-card-footer>
-</mat-card>
+    </mat-card-footer>
+  </mat-card>
+</form>
