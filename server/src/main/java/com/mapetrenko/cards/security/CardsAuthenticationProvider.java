@@ -1,9 +1,9 @@
 package com.mapetrenko.cards.security;
 
+import com.mapetrenko.cards.errors.CardForbiddenException;
 import com.mapetrenko.cards.model.User;
 import com.mapetrenko.cards.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Collection;
 
 @Component
@@ -22,7 +21,7 @@ public class CardsAuthenticationProvider implements AuthenticationProvider {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CardsAuthenticationProvider(UserService userService, CardsPasswordEncoder passwordEncoder) {
+    public CardsAuthenticationProvider(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -36,7 +35,7 @@ public class CardsAuthenticationProvider implements AuthenticationProvider {
 
         try {
             user = userService.doesUserExists(username);
-        } catch (UserPrincipalNotFoundException e) {
+        } catch (CardForbiddenException e) {
             // @TODO: Catch exception
         }
 

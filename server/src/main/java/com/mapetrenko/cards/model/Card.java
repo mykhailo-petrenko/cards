@@ -11,14 +11,17 @@ public class Card {
     @SequenceGenerator(name = "card_id_generator", sequenceName = "card_id_generator", initialValue = 100)
     private long id;
 
-    @Column(name = "question")
+    @Column(name = "question", columnDefinition = "TEXT")
     private String question;
 
-    @Column(name = "answer")
+    @Column(name = "answer", columnDefinition = "TEXT")
     private String answer;
 
     @Column(name = "acknowledged")
     private Date acknowledged;
+
+    @Column(name = "updated")
+    private Date updated;
 
     @Column(name = "created")
     private Date created;
@@ -64,6 +67,14 @@ public class Card {
 
     public void setAcknowledged(Date acknowledged) {
         this.acknowledged = acknowledged;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     public Date getCreated() {

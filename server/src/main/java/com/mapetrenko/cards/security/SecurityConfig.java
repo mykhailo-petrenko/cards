@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public SecurityConfig(
-        CardsPasswordEncoder passwordEncoder,
+        PasswordEncoder passwordEncoder,
         CardsAuthenticationProvider authProvider,
         UserDAO userDetailsService,
         JwtRequestFilter jwtRequestFilter

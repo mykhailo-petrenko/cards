@@ -4,7 +4,6 @@ import com.mapetrenko.cards.dao.UserRepository;
 import com.mapetrenko.cards.errors.UserAlreadyExistsException;
 import com.mapetrenko.cards.model.Role;
 import com.mapetrenko.cards.model.User;
-import com.mapetrenko.cards.security.CardsPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,7 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(UserRepository userRepository, CardsPasswordEncoder passwordEncoder) {
+    public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
