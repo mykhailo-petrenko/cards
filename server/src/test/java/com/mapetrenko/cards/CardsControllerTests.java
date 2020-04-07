@@ -2,31 +2,44 @@ package com.mapetrenko.cards;
 
 import com.mapetrenko.cards.model.Card;
 import com.mapetrenko.cards.service.CardsService;
+import junitparams.JUnitParamsRunner;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-
-@RunWith(SpringRunner.class)
-@WebMvcTest(CardsController.class)
-@ActiveProfiles("test")
+//https://www.javacodegeeks.com/2015/08/parameterized-integration-tests-with-spring-junit-rules.html
+@RunWith(JUnitParamsRunner.class)
+@SpringBootTest
 public class CardsControllerTests {
 
+    @ClassRule
+    public static final SpringClassRule SCR = new SpringClassRule();
+
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+
     @Autowired
+    protected WebApplicationContext context;
+
     private MockMvc mvc;
 
     @MockBean
@@ -39,6 +52,14 @@ public class CardsControllerTests {
     public void authorize() {
         when(mockPrincipal.getName())
             .thenReturn("mikael.petrenko@gmail.com");
+    }
+
+    @Before
+    public void setupMockMvc() {
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .alwaysDo(print())
+                .build();
     }
 
     @Test
