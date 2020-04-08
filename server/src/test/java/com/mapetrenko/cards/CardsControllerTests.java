@@ -18,14 +18,18 @@ import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //https://www.javacodegeeks.com/2015/08/parameterized-integration-tests-with-spring-junit-rules.html
 @RunWith(JUnitParamsRunner.class)
@@ -53,7 +57,7 @@ public class CardsControllerTests {
     @Before
     public void authorize() {
         when(mockPrincipal.getName())
-            .thenReturn("mikael.petrenko@gmail.com");
+                .thenReturn("mikael.petrenko@gmail.com");
     }
 
     @Before
@@ -69,16 +73,19 @@ public class CardsControllerTests {
         Card mCard = new Card("What is the meaning of the life?", "42");
 
         when(cardsService.getCardById(1L, "mikael.petrenko@gmail.com"))
-            .thenReturn(mCard);
+                .thenReturn(mCard);
 
-        MvcResult result = mvc.perform(MockMvcRequestBuilders
-            .get("/api/v1/cards/1")
-            .principal(mockPrincipal)
-            .accept(MediaType.APPLICATION_JSON)
-        ).andReturn();
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/cards/1")
+                .principal(mockPrincipal)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(0)))
+                .andExpect(jsonPath("$.question", is("What is the meaning of the life?")))
+                .andExpect(jsonPath("$.answer", is("42")));
 
-        System.out.println(result);
-
-        Assert.assertEquals(200, result.getResponse().getStatus());
+        System.out.println(resultActions.andReturn());
     }
 }
