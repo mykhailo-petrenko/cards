@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  cards-service-db:
+    image: postgres:12-alpine
+    ports:
+      - 5436:5432
+    environment:
+      - POSTGRES_DB=cards
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

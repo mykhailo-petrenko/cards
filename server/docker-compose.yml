@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  cards-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - CARDS_DATASOURCE_PASSWORD=postgres
+      - CARDS_DATASOURCE_LOGIN=postgres
+      - CARDS_DATASOURCE_URL=postgresql://cards-service-db:5432/cards?charset=UTF8
+    ports:
+      - 8080:8080
+    depends_on:
+      - cards-service-db
+
+  cards-service-db:
+    image: postgres:12-alpine
+    ports:
+      - 5436:5432
+    environment:
+      - POSTGRES_DB=cards
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
